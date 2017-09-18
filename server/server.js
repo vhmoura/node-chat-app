@@ -21,7 +21,10 @@ io.on('connection', (socket) => {
 
     socket.broadcast.emit('newMessage', generateMessage('admin', 'new user joinied'));
        
-   socket.on('createMessage', (message) => generateMessage(message.from, message.text));   
+   socket.on('createMessage', (message, callback) => {
+       io.emit('newMessage', generateMessage(message.from, message.text));
+       callback('This is from the server');
+   });   
 
    socket.on('disconnect', () => {
      console.log('cliented disconnected');
